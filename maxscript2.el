@@ -34,7 +34,7 @@
   :group 'languages)
 
 (defcustom maxscript-indent-offset 8
-  "Default indentanion offset for maxscript."
+  "Default indentation offset for maxscript."
   :group 'maxscript
   :type 'integer
   :safe 'integerp)
@@ -70,7 +70,7 @@
 	     (eolp))
     (save-excursion
       (maxscript-indent-line-function))))
-      
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-derived-mode
@@ -93,8 +93,12 @@
 
   ;; imenu
   (setq imenu-generic-expression
-	`(("function" ,(rx line-start (0+ space) (or "fn" "function") (1+ space) (group (1+ (any "A-Za-z0-9_")))) 1)
-	  ("rollout" ,(rx line-start (0+ space) "rollout" (1+ space) (group (1+ (any "A-Za-z0-9_")))) 1)))
+	(let ((ident '(1+ (any "A-Za-z0-9_"))))
+	  `(("function" ,(rx line-start (0+ space) (or "fn" "function") (1+ space) (group (eval ident))) 1)
+	    ("rollout" ,(rx line-start (0+ space) "rollout" (1+ space) (group (eval ident))) 1)
+	    ("plugin" ,(rx line-start (0+ space) "plugin" (1+ space) (eval ident) (1+ space) (group (eval ident))) 1)
+	    ("struct" ,(rx line-start (0+ space) "struct" (1+ space) (group (eval ident))) 1)
+	    )))
 
   ;; syntax stuff.
   (let ((s maxscript-mode-syntax-table))
