@@ -110,6 +110,13 @@
     (modify-syntax-entry ?\( "(" s)
     (modify-syntax-entry ?\) ")" s)
     (modify-syntax-entry ?\\ "\\" s)
+    (mapcar (lambda (x)
+	      (modify-syntax-entry x "." s))
+	    "+-*/=.")
+    (mapcar (lambda (x)
+	      (modify-syntax-entry x "w" s))
+	    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+    (modify-syntax-entry ?_ "_" s)
     )
   )
 
